@@ -19,10 +19,10 @@ export default function RootLayout({
         <div className="flex min-h-0 flex-1 overflow-hidden">
           <Sidebar />
           <div className="flex min-w-0 flex-1 flex-col overflow-hidden bg-background">
-            <div className="relative flex min-h-0 flex-1 gap-2 pr-2 pb-2">
-              <main className="flex min-h-0 flex-1 shrink flex-col overflow-hidden rounded-2xl border-2 border-border bg-background">
+            <div className="relative flex min-h-0 flex-1 gap-0 p-0 sm:gap-2 sm:pr-2 sm:pb-2">
+              <main className="flex min-h-0 flex-1 shrink flex-col overflow-hidden rounded-none border-0 bg-background sm:rounded-2xl sm:border-2 sm:border-border">
                 <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
-                  <div className="container mx-auto max-w-5xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-16">
+                  <div className="container mx-auto px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-16">
                     {children}
                   </div>
                 </div>
