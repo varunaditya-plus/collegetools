@@ -58,7 +58,7 @@ export function Sidebar() {
             <CentralIcon {...centralIconProps} name="IconCalculator" size={20} className={navIconClass} ariaHidden />
             SAT® Score
           </Link>
-          <Link href="/calculators/act-score" className={isActivePrefix("/calculators/act-score") ? navLinkActive : navLinkInactive}>
+          <Link href="/calculators/act" className={isActivePrefix("/calculators/act") ? navLinkActive : navLinkInactive}>
             <CentralIcon {...centralIconProps} name="IconCalculator" size={20} className={navIconClass} ariaHidden />
             ACT® Score
           </Link>

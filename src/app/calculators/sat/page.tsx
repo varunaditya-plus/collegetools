@@ -19,8 +19,6 @@ const LEGACY_WRITING_MAX = 44;
 const LEGACY_MATH_NC_MAX = 20;
 const LEGACY_MATH_C_MAX = 38;
 
-// OnePrep-style conversion tables for Digital SAT (from raw correct → scaled contribution per module).
-// R&W section = RW_MODULE_1[rw1] + RW_MODULE_2[rw2]; Math = MATH_MODULE_1[math1] + MATH_MODULE_2[math2].
 const DIGITAL_RW_MODULE_1: number[] = [
   100, 100, 120, 140, 160, 170, 180, 190, 200, 200, 210, 210, 220, 230, 240, 260, 270, 290, 310, 320, 340, 360, 370, 390, 410, 430, 440, 460,
 ];
@@ -39,10 +37,6 @@ function lookupModuleScore(table: number[], raw: number, maxRaw: number): number
   return table[i] ?? table[table.length - 1] ?? 200;
 }
 
-/**
- * Digital SAT: section scores from OnePrep-style conversion tables (equating-style).
- * R&W = sum of two module contributions; Math = sum of two module contributions; total = R&W + Math.
- */
 function computeDigitalScores(
   rw1: number,
   rw2: number,
@@ -58,19 +52,12 @@ function computeDigitalScores(
   return { total: rw + math, rw, math };
 }
 
-/**
- * Convert raw section score to scaled score (200-800) for Legacy SAT.
- * Uses linear interpolation as the standard estimation; real test uses equating.
- */
 function rawToScaledSection(raw: number, maxRaw: number): number {
   if (maxRaw <= 0) return 200;
   const p = Math.min(1, Math.max(0, raw / maxRaw));
   return Math.round(200 + p * 600);
 }
 
-/**
- * Legacy SAT: Reading + Writing → EBRW (200-800), Math No-Calc + Math Calc → Math (200-800).
- */
 function computeLegacyScores(
   reading: number,
   writing: number,
@@ -122,7 +109,7 @@ function ModuleRow({
             className="h-8 w-12 text-center tabular-nums text-sm text-foreground bg-white dark:bg-input/30 border border-[#e5e5e5] dark:border-input rounded shadow-sm focus-visible:ring-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-label={label}
           />
-          <span className="text-muted-foreground text-sm tabular-nums">/ {max}</span>
+          <span className="text-muted-foreground text-sm tabular-nums">/{max}</span>
         </div>
       </div>
     </div>
@@ -262,26 +249,26 @@ export default function SatScoreCalculatorPage() {
             <div className="space-y-6 flex-1">
               <div>
                 <p className="text-sm font-medium text-foreground">Total Score</p>
-                <p className="text-4xl font-bold text-foreground tabular-nums leading-none mt-2">
+                <p className="text-4xl font-bold text-foreground tabular-nums leading-none mt-2 flex items-baseline gap-2">
                   {totalScore}
+                  <span className="text-xl font-normal text-muted-foreground">/1600</span>
                 </p>
-                <p className="text-sm text-muted-foreground mt-1">400-1600</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-foreground">
                   {satType === "digital" ? "Reading & Writing Score" : "Evidence-Based Reading & Writing"}
                 </p>
-                <p className="text-2xl font-bold text-foreground tabular-nums leading-none mt-2">
+                <p className="text-2xl font-bold text-foreground tabular-nums leading-none mt-2 flex items-baseline gap-2">
                   {sectionScoreA}
+                  <span className="text-lg font-normal text-muted-foreground">/800</span>
                 </p>
-                <p className="text-sm text-muted-foreground mt-1">200 to 800</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-foreground">Math Score</p>
-                <p className="text-2xl font-bold text-foreground tabular-nums leading-none mt-2">
+                <p className="text-2xl font-bold text-foreground tabular-nums leading-none mt-2 flex items-baseline gap-2">
                   {sectionScoreB}
+                  <span className="text-lg font-normal text-muted-foreground">/800</span>
                 </p>
-                <p className="text-sm text-muted-foreground mt-1">200 to 800</p>
               </div>
             </div>
           </div>
